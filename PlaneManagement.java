@@ -10,7 +10,13 @@ public class PlaneManagement{
 
 
 
-
+    public static boolean emailchecker(String email){
+        if(email.contains("@")&&email.contains(".")){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public static int user_menu(){
         //printing the menu and getting a response from the user
         System.out.println("\n\n");
@@ -195,13 +201,25 @@ public class PlaneManagement{
         String email= null;
         String row_letter= null;
         int seat_number= 0;
+        boolean state=false;
         try {
+
             System.out.print("Please Enter your name: ");
             name = new Scanner(System.in).next();
             System.out.print("Please Enter your surname: ");
             surname = new Scanner(System.in).next();
-            System.out.print("Please Enter your email: ");
-            email = new Scanner(System.in).next();
+            while(!state){
+                System.out.print("Please Enter your email: ");
+                email = new Scanner(System.in).next();
+                if(emailchecker(email)){
+                    state=true;
+                }else{
+                    System.out.println("Invalid email please enter a valid email.");
+
+                }
+
+            }
+
             System.out.print("Please Enter the row letter: ");
             row_letter = new Scanner(System.in).next().toLowerCase();
             System.out.print("Enter the Seat number: ");
