@@ -10,12 +10,8 @@ public class PlaneManagement{
 
 
 
-    public static boolean emailchecker(String email){
-        if(email.contains("@")&&email.contains(".")){
-            return true;
-        }else{
-            return false;
-        }
+    public static boolean checkIfMail(String email){
+        return email.contains("@") && email.contains(".");
     }
     public static int user_menu(){
         //printing the menu and getting a response from the user
@@ -195,12 +191,12 @@ public class PlaneManagement{
             return 180;
         }
     }
-    public static void buy_seat(int[][] seats){
+
+    public static String[] getInput() {
         String name= null;
         String surname= null;
         String email= null;
-        String row_letter= null;
-        int seat_number= 0;
+
         boolean state=false;
         try {
 
@@ -211,7 +207,7 @@ public class PlaneManagement{
             while(!state){
                 System.out.print("Please Enter your email: ");
                 email = new Scanner(System.in).next();
-                if(emailchecker(email)){
+                if(checkIfMail(email)){
                     state=true;
                 }else{
                     System.out.println("Invalid email please enter a valid email.");
@@ -220,97 +216,142 @@ public class PlaneManagement{
 
             }
 
-            System.out.print("Please Enter the row letter: ");
-            row_letter = new Scanner(System.in).next().toLowerCase();
-            System.out.print("Enter the Seat number: ");
-            seat_number = new Scanner(System.in).nextInt();
+
         } catch (InputMismatchException e) {
             System.out.println("Incorrect input \nError code:"+e);
         }catch (Exception e) {
             System.out.println("Some error occurred \nError code:"+e);
         }
+        return new String[]{name,surname,email};
+    }
+
+
+    public static void buy_seat(int[][] seats){
+
+
+        String row_letter= null;
+        int seat_number= 0;
+        System.out.print("Please Enter the row letter: ");
+        row_letter = new Scanner(System.in).next().toLowerCase();
+
 
         double price=price_check(seat_number);
         switch (row_letter){
             case "a":
-                if(seat_number>0 && seat_number<15){
-                    if(seats[0][seat_number-1]==0){
-                        seats[0][seat_number-1]=1;
-                        Person person = new Person(name, surname, email);
-                        Ticket ticket = new Ticket("A", seat_number-1, price, person);
-                        if (ticketCount < 52) {
-                            tickets[ticketCount] = ticket;
-                            ticketCount++;
-                            ticket.save();
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                System.out.print("Enter the Seat number: ");
+                try {
+                    seat_number = new Scanner(System.in).nextInt();
+                    if(seat_number>0 && seat_number<15){
+                        if(seats[0][seat_number-1]==0){
+                            String[] input=getInput();
+                            seats[0][seat_number-1]=1;
+                            Person person = new Person(input[0],input[1],input[2]);
+                            Ticket ticket = new Ticket("A", seat_number-1, price, person);
+                            if (ticketCount < 52) {
+                                tickets[ticketCount] = ticket;
+                                ticketCount++;
+                                ticket.save();
+                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                            }
+                        }else{
+                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
+
                         }
                     }else{
-                        System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
+                        System.out.println("Enter a correct Seat number.");
                     }
-                }else{
-                    System.out.println("Enter a correct Seat number.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter an Integer \nError code: "+e);;
+                } catch (Exception e){
+                    System.out.println("Error Occured\nError code: "+e);
                 }
                 break;
             case "b":
-                if(seat_number>0 && seat_number<13){
-                    if(seats[1][seat_number-1]==0){
-                        seats[1][seat_number-1]=1;
-                        Person person = new Person(name, surname, email);
-                        Ticket ticket = new Ticket("B", seat_number-1, price, person);
-                        if (ticketCount < 52) {
-                            tickets[ticketCount] = ticket;
-                            ticketCount++;
-                            ticket.save();
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                System.out.print("Enter the Seat number: ");
+                try {
+                    seat_number = new Scanner(System.in).nextInt();
+                    if(seat_number>0 && seat_number<13){
+                        if(seats[1][seat_number-1]==0){
+                            String[] input=getInput();
+                            seats[1][seat_number-1]=1;
+                            Person person = new Person(input[0],input[1],input[2]);
+                            Ticket ticket = new Ticket("B", seat_number-1, price, person);
+                            if (ticketCount < 52) {
+                                tickets[ticketCount] = ticket;
+                                ticketCount++;
+                                ticket.save();
+                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                            }
+
+                        }else{
+                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
+
                         }
-
                     }else{
-                        System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
+                        System.out.println("Enter a correct Seat number.");
                     }
-                }else{
-                    System.out.println("Enter a correct Seat number.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter an Integer \nError code: "+e);;
+                } catch (Exception e){
+                    System.out.println("Error Occured\nError code: "+e);
                 }
                 break;
             case "c":
-                if(seat_number>0 && seat_number<13){
-                    if(seats[2][seat_number-1]==0){
-                        seats[2][seat_number-1]=1;
-                        Person person = new Person(name, surname, email);
-                        Ticket ticket = new Ticket("C", seat_number-1, price, person);
-                        if (ticketCount < 52) {
-                            tickets[ticketCount] = ticket;
-                            ticketCount++;
-                            ticket.save();
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                System.out.print("Enter the Seat number: ");
+                try {
+                    seat_number = new Scanner(System.in).nextInt();
+                    if(seat_number>0 && seat_number<13){
+                        if(seats[2][seat_number-1]==0){
+                            String[] input=getInput();
+                            seats[2][seat_number-1]=1;
+                            Person person = new Person(input[0],input[1],input[2]);
+                            Ticket ticket = new Ticket("C", seat_number-1, price, person);
+                            if (ticketCount < 52) {
+                                tickets[ticketCount] = ticket;
+                                ticketCount++;
+                                ticket.save();
+                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                            }
+                        }else{
+                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
+
                         }
                     }else{
-                        System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
+                        System.out.println("Enter a correct Seat number.");
                     }
-                }else{
-                    System.out.println("Enter a correct Seat number.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter an Integer \nError code: "+e);;
+                } catch (Exception e){
+                    System.out.println("Error Occured\nError code: "+e);
                 }
                 break;
             case "d":
-                if(seat_number>0 && seat_number<15){
-                    if(seats[3][seat_number-1]==0){
-                        seats[3][seat_number-1]=1;
-                        Person person = new Person(name, surname, email);
-                        Ticket ticket = new Ticket("D", seat_number-1, price, person);
-                        if (ticketCount < 52) {
-                            tickets[ticketCount] = ticket;
-                            ticketCount++;
-                            ticket.save();
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                System.out.print("Enter the Seat number: ");
+                try {
+                    seat_number = new Scanner(System.in).nextInt();
+                    if(seat_number>0 && seat_number<15){
+                        if(seats[3][seat_number-1]==0){
+                            String[] input=getInput();
+                            seats[3][seat_number-1]=1;
+                            Person person = new Person(input[0],input[1],input[2]);
+                            Ticket ticket = new Ticket("D", seat_number-1, price, person);
+                            if (ticketCount < 52) {
+                                tickets[ticketCount] = ticket;
+                                ticketCount++;
+                                ticket.save();
+                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                            }
+                        }else{
+                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
+
                         }
                     }else{
-                        System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
+                        System.out.println("Enter a correct Seat number.");
                     }
-                }else{
-                    System.out.println("Enter a correct Seat number.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Enter an Integer \nError code: "+e);;
+                } catch (Exception e){
+                    System.out.println("Error Occured\nError code: "+e);
                 }
                 break;
             default:
@@ -320,42 +361,27 @@ public class PlaneManagement{
     }
 
     public static void find_first_available(int[][] seats){
-        int x=0;
-        int n=1;
-        boolean state=false;
         String row_letter=" ";
-        for(int[] row :seats){
-            switch(x){
-                case 0:
-                    row_letter="A";
-                    break;
-                case 1:
-                    row_letter="B";
-                    break;
-                case 2:
-                    row_letter="C";
-                    break;
-                case 3:
-                    row_letter="D";
-                    break;
-                default:
-                    System.out.println("Error Row letter ");
+        boolean state=false;
+        for(int rows=0;rows<seats.length;rows++){
 
-            }
-
-            for(int seat:row){
-                if(seat==0){
-
-                    System.out.println("Seat in row "+row_letter+" with seat number "+n+" is available" );
+            for(int seatnumber=0;seatnumber<seats[rows].length;seatnumber++){
+                if(seats[rows][seatnumber]==0){
+                    row_letter = switch (rows) {
+                        case 0 -> "A";
+                        case 1 -> "B";
+                        case 2 -> "C";
+                        case 3 -> "D";
+                        default -> row_letter;
+                    };
+                    System.out.println("Seat in row "+row_letter+" with seat number "+(seatnumber+1)+" is available" );
                     state=true;
                     break;
                 }
-                n++;
             }
-            if(state){
-                break;
-            }
-            x++;
+                if(state){
+                    break;
+                }
         }
     }
 
@@ -392,61 +418,66 @@ public class PlaneManagement{
 
     public static void search_ticket() {
         String rowLetter = null;
+        boolean found = false;
         int seatNumber = 0;
         try {
             Scanner scanner = new Scanner(System.in);
 
             System.out.print("Enter the row letter: ");
             rowLetter = scanner.next().toUpperCase();
-            System.out.print("Enter the seat number: ");
-            seatNumber = scanner.nextInt();
+            switch (rowLetter) {
+                case "A":
+                    System.out.print("Enter the seat number: ");
+                    seatNumber = scanner.nextInt();
+                    if (seatNumber > 0 && seatNumber < 15 && seats[0][seatNumber - 1] == 1) {
+                        found = true;
+                    }else{
+                        System.out.println("No Seat number found");
+                    }
+                    break;
+                case "B":
+                    System.out.print("Enter the seat number: ");
+                    seatNumber = scanner.nextInt();
+                    if (seatNumber > 0 && seatNumber < 13 && seats[1][seatNumber - 1] == 1) {
+                        found = true;
+                    }else{
+                        System.out.println("No Seat number found");
+                    }
+                    break;
+                case "C":
+                    System.out.print("Enter the seat number: ");
+                    seatNumber = scanner.nextInt();
+                    if (seatNumber > 0 && seatNumber < 13 && seats[2][seatNumber - 1] == 1) {
+                        found = true;
+                    }else{
+                        System.out.println("No Seat number found");
+                    }
+                    break;
+                case "D":
+                    System.out.print("Enter the seat number: ");
+                    seatNumber = scanner.nextInt();
+                    if (seatNumber > 0 && seatNumber < 15 && seats[3][seatNumber - 1] == 1) {
+                        found = true;
+                    }else{
+                        System.out.println("No Seat number found");
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid row letter.");
+            }
         } catch (InputMismatchException e) {
             System.out.println("Incorrect input \nError code:"+e);
         }catch (Exception e) {
             System.out.println("Some error occurred \nError code:"+e);
         }
 
-        boolean found = false;
-
-        // Check if the seat is available in the seats array
-        switch (rowLetter) {
-            case "A":
-                if (seatNumber > 0 && seatNumber < 15 && seats[0][seatNumber - 1] == 0) {
-                    System.out.println("This seat is available.");
-                    found = true;
-                }
-                break;
-            case "B":
-                if (seatNumber > 0 && seatNumber < 13 && seats[1][seatNumber - 1] == 0) {
-                    System.out.println("This seat is available.");
-                    found = true;
-                }
-                break;
-            case "C":
-                if (seatNumber > 0 && seatNumber < 13 && seats[2][seatNumber - 1] == 0) {
-                    System.out.println("This seat is available.");
-                    found = true;
-                }
-                break;
-            case "D":
-                if (seatNumber > 0 && seatNumber < 15 && seats[3][seatNumber - 1] == 0) {
-                    System.out.println("This seat is available.");
-                    found = true;
-                }
-                break;
-            default:
-                System.out.println("Invalid row letter.");
-        }
-
-        // If the seat is not found in the seats array, check the tickets array
-        if (!found) {
+        if (found) {
             String row;
             int seatno;
             for (int i = 0; i < ticketCount; i++) {
                 Ticket ticket = tickets[i];
                 row= ticket.getRow();
                 seatno=ticket.getSeat();
-
                 if(Objects.equals(row, rowLetter) && seatno==seatNumber-1){
                     ticket.printInfo();
                 }

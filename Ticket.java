@@ -53,14 +53,9 @@ public class Ticket {
     public void save() {
         String filename = row + (seat+1) + ".txt"; // Generate filename based on row and seat number
         try (FileWriter writer = new FileWriter(filename)) {
-            writer.write("Ticket Information:\n");
-            writer.write("Row: " + row + "\n");
-            writer.write("Seat: " + (seat + 1) + "\n");
-            writer.write("Price: " + price + "\n");
             writer.write("Person Information:\n");
-            writer.write("Name: " + person.getName() + "\n");
-            writer.write("Surname: " + person.getSurname() + "\n");
-            writer.write("Email: " + person.getEmail() + "\n");
+            writer.write("Name: " + person.getName() + "\n"+"Surname: " + person.getSurname() + "\n"+"Email: " + person.getEmail() + "\n");
+            writer.write("Ticket Information:\n"+"Row: " + row + "\n"+"Seat: " + (seat + 1) + "\n"+"Price: " + price + "\n");
             System.out.println("Ticket information saved to file: " + filename);
         } catch (IOException e) {
             System.out.println("Error occurred while saving ticket information to file: " + e.getMessage());
