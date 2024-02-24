@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ima Cook</title>
+    <style>
+      body{
+        background-color: black;
+        overflow: hidden;
+      }
+      p {
+        text-align: center;
+        color: aliceblue;
+        font-size: 32px;
+        font-family: Candara, Oswald;
+        animation: goaround 3s ease infinite ;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
+        width: 25%;
+
+      }
+      #botao1 {
+        position: fixed;
+        top: 70%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+      }
+      #botao2 {
+        position: absolute;
+        left: 39%;
+        top: 68%;
+      }
+      button{
+        padding: 5px 10px 5px;
+        border: 1px gold;
+        border-radius: 5px;
+        color: aliceblue;
+        font-size: 25px;
+        background-color: blue;
+      }
+
+
+      @keyframes goaround {
+        from{
+          transform: translateX(-300px);
+        }
+        to{
+          transform: translateX(300px);
+        }
+        
+      }
+      
+    </style>
+  </head>
+  <body>
+    <p>Can we hang out soon?</p>
+    <img src="https://media.tenor.com/zGm5acSjHCIAAAAM/cat-begging.gif" />
+
+    <button id="botao1">YES BBY!</button>
+    <button id="botao2">NO</button>
+  </body>
+
+  <script>
+    const button2 = document.getElementById("botao2");
+    let left = 40;
+    button2.addEventListener("mouseover", function () {
+      if (left == 40) {
+        left = 50;
+      } else {
+        left = 40;
+      }
+      this.style.left = left + "%";
+    });
+
+    document.getElementById("botao1").addEventListener("click", function () {
+      alert("YAYY THANK U 😍❤️");
+    });
+  </script>
+</html>
