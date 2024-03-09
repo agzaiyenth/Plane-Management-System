@@ -42,10 +42,10 @@ public class PlaneManagement{
         /*
             Allows user to purchase seats
         */
-
+        show_seating_plan();
         String row_letter;
         int seat_number= 0;
-        System.out.print("Please Enter the row letter: ");
+        System.out.print("\nPlease Enter the row letter: ");
         row_letter = new Scanner(System.in).next().toLowerCase();
 
 
@@ -323,17 +323,29 @@ public class PlaneManagement{
         /*
             Prints Seats that are available and the sold ones,'O' denotes the free seats & 'X' denotes the sold seats
         */
+        
         int x=0;
+        String[] Rows={"A","B","C","D"};
+        System.out.println("\u001B[1m   1  2  3  4  5  6  7  8  9  10  11  12  13  14");
+        System.out.println("------------------------------------------------");
+        int k;
         for (int[] row :seats){
             if(x==2){
                 System.out.println();
             }
+            System.out.print("\u001B[1m"+Rows[x]+"| ");
+            k=0;
             for(int n:row){
-                if(n==0){
-                    System.out.print("O");
+                if(n==0 && k>=9){
+                    System.out.print("O   ");
+                }else if(n==1 && k>=9){
+                    System.out.print("X   ");
+                }else if(n==0){
+                    System.out.print("O  ");
                 }else{
-                    System.out.print("X");
+                    System.out.print("X  ");
                 }
+                k++;
             }
             System.out.println();
             x++;
