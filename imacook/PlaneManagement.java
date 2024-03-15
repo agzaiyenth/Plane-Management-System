@@ -1,11 +1,11 @@
 import java.util.*;
 public class PlaneManagement{
-
     //creating instance variables
     private static final Ticket [] tickets=new Ticket[52];
+    static Scanner scanner = new Scanner(System.in);
     private static int ticketCount=0;
     private static final int[][] seats = new int[4][];
-
+    //Methods
     public static int user_menu() {
         /*
             Displays User menu to the user
@@ -27,278 +27,35 @@ public class PlaneManagement{
                 *******************************************************
                 """);
         System.out.print("Please select an option: ");
-
         int response = 10;
         try {
             response = new Scanner(System.in).nextInt();
         } catch (InputMismatchException e) {
-            System.out.println("Enter a Integer \nError code:" + e);
+            //Take a break,do nothing!
         }
         System.out.println();
         return response;
     }
-
     public static void buy_seat(){
         /*
             Allows user to purchase seats
         */
         show_seating_plan();
-        String row_letter;
-        int seat_number= 0;
-        System.out.print("\nPlease Enter the row letter: ");
-        row_letter = new Scanner(System.in).next().toLowerCase();
-
-
-        double price=price_check(seat_number);
-        switch (row_letter){
-            case "a":
-                System.out.print("Enter the Seat number: ");
-                try {
-                    seat_number = new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<15){
-                        if(seats[0][seat_number-1]==0){
-                            String[] input=getInput();
-                            seats[0][seat_number-1]=1;
-                            Person person = new Person(input[0],input[1],input[2]);
-                            Ticket ticket = new Ticket("A", seat_number-1, price, person);
-                            if (ticketCount < 52) {
-                                tickets[ticketCount] = ticket;
-                                ticketCount++;
-                                ticket.save();
-                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Enter an Integer \nError code: "+e);
-                } catch (Exception e){
-                    System.out.println("Error Occurred\nError code: "+e);
-                }
-                break;
-            case "b":
-                System.out.print("Enter the Seat number: ");
-                try {
-                    seat_number = new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<13){
-                        if(seats[1][seat_number-1]==0){
-                            String[] input=getInput();
-                            seats[1][seat_number-1]=1;
-                            Person person = new Person(input[0],input[1],input[2]);
-                            Ticket ticket = new Ticket("B", seat_number-1, price, person);
-                            if (ticketCount < 52) {
-                                tickets[ticketCount] = ticket;
-                                ticketCount++;
-                                ticket.save();
-                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
-                            }
-
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Enter an Integer \nError code: "+e);
-                } catch (Exception e){
-                    System.out.println("Error Occurred\nError code: "+e);
-                }
-                break;
-            case "c":
-                System.out.print("Enter the Seat number: ");
-                try {
-                    seat_number = new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<13){
-                        if(seats[2][seat_number-1]==0){
-                            String[] input=getInput();
-                            seats[2][seat_number-1]=1;
-                            Person person = new Person(input[0],input[1],input[2]);
-                            Ticket ticket = new Ticket("C", seat_number-1, price, person);
-                            if (ticketCount < 52) {
-                                tickets[ticketCount] = ticket;
-                                ticketCount++;
-                                ticket.save();
-                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Enter an Integer \nError code: "+e);
-                } catch (Exception e){
-                    System.out.println("Error Occurred\nError code: "+e);
-                }
-                break;
-            case "d":
-                System.out.print("Enter the Seat number: ");
-                try {
-                    seat_number = new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<15){
-                        if(seats[3][seat_number-1]==0){
-                            String[] input=getInput();
-                            seats[3][seat_number-1]=1;
-                            Person person = new Person(input[0],input[1],input[2]);
-                            Ticket ticket = new Ticket("D", seat_number-1, price, person);
-                            if (ticketCount < 52) {
-                                tickets[ticketCount] = ticket;
-                                ticketCount++;
-                                ticket.save();
-                                System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Enter an Integer \nError code: "+e);
-                } catch (Exception e){
-                    System.out.println("Error Occurred\nError code: "+e);
-                }
-                break;
-            default:
-                System.out.println(row_letter.toUpperCase()+" row doesn't Exist!");
-        }
-
+        switcher(2);
     }
-
     public static void cancel_seat(){
         /*
             Allows the user to cancel the seat which has been booked previously
         */
-        System.out.print("Please Enter the row letter: ");
-        String row_letter=new Scanner(System.in).next().toLowerCase();
-        int seat_number;
-        switch (row_letter){
-            case "a":
-                try {
-                    System.out.print("Enter the Seat number: ");
-                    seat_number=new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<15){
-                        if(seats[0][seat_number-1]==1){
-                            seats[0][seat_number-1]=0;
-                            for (int i = 0; i < ticketCount; i++) {
-                                Ticket ticket = tickets[i];
-                                if (Objects.equals(ticket.getRow(), "A") && ticket.getSeat()+1 == seat_number) {
-                                    remove_ticket(i, ticket);
-                                }
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is available already.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Incorrect input \nError code:"+e);
-                }catch (Exception e) {
-                    System.out.println("Some error occurred \nError code:"+e);
-                }
-                break;
-            case "b":
-                try {
-                    System.out.print("Enter the Seat number: ");
-                    seat_number=new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<13){
-                        if(seats[1][seat_number-1]==1){
-                            seats[1][seat_number-1]=0;
-                            for (int i = 0; i < ticketCount; i++) {
-                                Ticket ticket = tickets[i];
-                                if (Objects.equals(ticket.getRow(), "B") && ticket.getSeat()+1 == seat_number) {
-                                    remove_ticket(i, ticket);
-                                }
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is available already.");
-
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Incorrect input \nError code:"+e);
-                }catch (Exception e) {
-                    System.out.println("Some error occurred \nError code:"+e);
-                }
-                break;
-            case "c":
-                try {
-                    System.out.print("Enter the Seat number: ");
-                    seat_number=new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<13){
-                        if(seats[2][seat_number-1]==1){
-                            seats[2][seat_number-1]=0;
-                            for (int i = 0; i < ticketCount; i++) {
-                                Ticket ticket = tickets[i];
-                                if (Objects.equals(ticket.getRow(), "C") && ticket.getSeat()+1 == seat_number) {
-                                    remove_ticket(i, ticket);
-                                }
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is available already.");
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Incorrect input \nError code:"+e);
-                }catch (Exception e) {
-                    System.out.println("Some error occurred \nError code:"+e);
-                }
-                break;
-            case "d":
-                try {
-                    System.out.print("Enter the Seat number: ");
-                    seat_number=new Scanner(System.in).nextInt();
-                    if(seat_number>0 && seat_number<15){
-                        if(seats[3][seat_number-1]==1){
-                            seats[3][seat_number-1]=0;
-                            for (int i = 0; i < ticketCount; i++) {
-                                Ticket ticket = tickets[i];
-                                if (Objects.equals(ticket.getRow(), "D") && ticket.getSeat()+1 == seat_number) {
-                                    remove_ticket(i, ticket);
-                                }
-                            }
-                        }else{
-                            System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is available already.");
-                        }
-                    }else{
-                        System.out.println("Enter a correct Seat number.");
-                    }
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Incorrect input \nError code:"+e);
-                }catch (Exception e) {
-                    System.out.println("Some error occurred \nError code:"+e);
-                }
-            default:
-                System.out.println(row_letter.toUpperCase()+" row doesn't Exist!");
-        }
-
-
+        switcher(1);
     }
-
     public static void find_first_available(){
         /*
             Prints the first seat row and number of the seat which is available.
         */
         String row_letter=" ";
-        boolean state=false;
+        breaker:
         for(int rows=0;rows<seats.length;rows++){
-
             for(int seatnumber=0;seatnumber<seats[rows].length;seatnumber++){
                 if(seats[rows][seatnumber]==0){
                     row_letter = switch (rows) {
@@ -309,236 +66,220 @@ public class PlaneManagement{
                         default -> row_letter;
                     };
                     System.out.println("Seat in row "+row_letter+" with seat number "+(seatnumber+1)+" is available" );
-                    state=true;
-                    break;
+                    break breaker;
                 }
-            }
-            if(state){
-                break;
             }
         }
     }
-
     public static void show_seating_plan(){
         /*
             Prints Seats that are available and the sold ones,'O' denotes the free seats & 'X' denotes the sold seats
         */
-        
-        int x=0;
         String[] Rows={"A","B","C","D"};
         System.out.println("\u001B[1m   1  2  3  4  5  6  7  8  9  10  11  12  13  14");
         System.out.println("------------------------------------------------");
-        int k;
-        for (int[] row :seats){
-            if(x==2){
-                System.out.println();
-            }
+        for (int x=0;x<seats.length;x++){
+            if(x==2) System.out.println();
             System.out.print("\u001B[1m"+Rows[x]+"| ");
-            k=0;
-            for(int n:row){
-                if(n==0 && k>=9){
+            for(int n=0;n<seats[x].length;n++){
+                if(seats[x][n]==0 && n>=9){
                     System.out.print("O   ");
-                }else if(n==1 && k>=9){
+                }else if(seats[x][n]==1 && n>=9){
                     System.out.print("X   ");
-                }else if(n==0){
+                }else if(seats[x][n]==0){
                     System.out.print("O  ");
-                }else{
+                }else {
                     System.out.print("X  ");
                 }
-                k++;
             }
             System.out.println();
-            x++;
         }
+        System.out.println();
     }
-
     public static void print_tickets_info() {
         /*
             Prints all the Ticket information sold
         */
-        double totalAmount = 0;
-
+        int totalAmount = 0;
         System.out.print("\nTickets Sold During Session: \n");
         for (int i = 0; i < ticketCount; i++) {
-            Ticket ticket = tickets[i];
             System.out.println("\nTicket " + (i + 1) + ":");
-            ticket.printInfo();
-            totalAmount += ticket.getPrice();
+            tickets[i].printInfo();
+            totalAmount += (int) tickets[i].getPrice();
         }
-        System.out.println("\nTotal Sales: £"+(int) totalAmount);
+        System.out.println("\nTotal Sales: £"+totalAmount);
     }
-
     public static void search_ticket() {
         /*
             Checks if the seat is available or sold,if sold it prints the user info
         */
-        String rowLetter = null;
-        boolean found = false;
-        int seatNumber = 0;
+        switcher(3);
+    }
+    public static void specificTicketFinder(String rowLetter,int rowNumber,int conditionController){
+        /*
+        * check's for the specific ticket and prints the information
+        * @params Row letter,row number & stop condition controller
+        */
+        System.out.print("Enter the seat number: ");
         try {
-            Scanner scanner = new Scanner(System.in);
+            int seat_number = scanner.nextInt();
+            if(seat_number>0 && seat_number<conditionController){
+                if (seats[rowNumber][seat_number - 1] == 1) {
+                    for (int i = 0; i < ticketCount; i++) {
+                        Ticket ticket = tickets[i];
+                        if (Objects.equals(ticket.getRow(), rowLetter.toUpperCase()) && ticket.getSeat() == seat_number - 1) {
+                            ticket.printInfo();
+                            break;
+                        }
+                    }
+                }else{
+                    System.out.println("Seat is not purchased yet");
+                }
+            }else{
+                System.out.println("Enter a valid Seat number");
+            }
+        } catch (Exception e) {
+            System.out.println("Enter an Integer");
+        }
+    }
+    public static void functionRunner(int functionChecker,int rowIndex,String row_letter,int conditionController){
+        /*
+        * Runs the specific function depending on the option selected
+        * @param Row letter in uppercase,option selected by the user,row index,row letter entered by the user,condition controller
+        */
+        if(functionChecker==1)
+            cancelProgress(row_letter, rowIndex,conditionController);
+        else if (functionChecker==2)
+            buyingProgress(row_letter,conditionController,rowIndex);
+        else if (functionChecker==3)
+            specificTicketFinder(row_letter,rowIndex,conditionController);
 
-            System.out.print("Enter the row letter: ");
-            rowLetter = scanner.next().toUpperCase();
-            switch (rowLetter) {
-                case "A":
-                    System.out.print("Enter the seat number: ");
-                    seatNumber = scanner.nextInt();
-                    if (seatNumber > 0 && seatNumber < 15 && seats[0][seatNumber - 1] == 1) {
-                        found = true;
-                    }else{
-                        System.out.println("Seat is already Available");
-                    }
+    }
+    public static void switcher(int functionChecker){
+        /*
+        * Gets the row letter from the user and calls the functionRunner method and
+        * sending relevant arguments according to each row.
+        * @params integer controlling which method to be called
+        */
+        try {
+            System.out.print("Please Enter the row letter: ");
+            String row_letter=new Scanner(System.in).next().toLowerCase();
+            switch (row_letter){
+                case "a":
+                    functionRunner(functionChecker,0,row_letter,15);
                     break;
-                case "B":
-                    System.out.print("Enter the seat number: ");
-                    seatNumber = scanner.nextInt();
-                    if (seatNumber > 0 && seatNumber < 13 && seats[1][seatNumber - 1] == 1) {
-                        found = true;
-                    }else{
-                        System.out.println("Seat is already Available");
-                    }
+                case "b":
+                    functionRunner(functionChecker,1,row_letter,13);
                     break;
-                case "C":
-                    System.out.print("Enter the seat number: ");
-                    seatNumber = scanner.nextInt();
-                    if (seatNumber > 0 && seatNumber < 13 && seats[2][seatNumber - 1] == 1) {
-                        found = true;
-                    }else{
-                        System.out.println("Seat is already Available");
-                    }
+                case "c":
+                    functionRunner(functionChecker,2,row_letter,13);
                     break;
-                case "D":
-                    System.out.print("Enter the seat number: ");
-                    seatNumber = scanner.nextInt();
-                    if (seatNumber > 0 && seatNumber < 15 && seats[3][seatNumber - 1] == 1) {
-                        found = true;
-                    }else{
-                        System.out.println("Seat is already Available");
-                    }
+                case "d":
+                    functionRunner(functionChecker,3,row_letter,15);
                     break;
                 default:
-                    System.out.println("Invalid row letter.");
+                    System.out.println(row_letter.toUpperCase()+" row doesn't Exist!");
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Incorrect input \nError code:"+e);
-        }catch (Exception e) {
-            System.out.println("Some error occurred \nError code:"+e);
-        }
-
-        if (found) {
-            String row;
-            int seatno;
-            for (int i = 0; i < ticketCount; i++) {
-                Ticket ticket = tickets[i];
-                row= ticket.getRow();
-                seatno=ticket.getSeat();
-                if(Objects.equals(row, rowLetter) && seatno==seatNumber-1){
-                    ticket.printInfo();
-                }
-
-            }
-
-        }
-
-
-    }
-
-    /*
-        checkIfMail,remove_ticket,price_check,getInput
-        methods are created to maintain good code of practices
-        NOT a requirement of coursework
-     */
-    public static boolean checkIfMail(String email){
-        /*
-            Checks if the email input given the user is valid,checks if '@' & '.' are included
-            @param String input given by the user
-            @return 'true' if found else 'false',as boolean values
-        */
-        return email.contains("@") && email.contains(".");
-    }
-
-    public static void remove_ticket(int i, Ticket ticket) {
-        /*
-            deletes the object ticket,text file and sorts the array 'tickets'
-            @params 'i' counter & the object ticket
-        */
-        ticket.delete();
-        for (int j = i; j < ticketCount - 1; j++) {
-            tickets[j] = tickets[j + 1];
-        }
-        tickets[ticketCount - 1] = null;
-        ticketCount--;
-        System.out.println("Ticket canceled successfully!");
-    }
-
-    public static double price_check(int seat_number){
-        /*
-            Computes the seat price using the seat number
-            @params integer seat number
-            @return price of the seat in 'double' data type
-        */
-        if(seat_number>0&&seat_number<6){
-            return 200;
-        } else if (seat_number>5&&seat_number<10) {
-            return 150;
-        }else{
-            return 180;
+        } catch (Exception e) {
+            System.out.println("Some Error Occurred: "+e);
         }
     }
-
-    public static String[] getInput() {
+    public static void buyingProgress(String row_letter,int controller,int rowIndex){
         /*
-            Gets the user input
-            @return String array containing all the input taken from the user
+        * Gets seat number and allows the user to buy the seat
+        * @params ,row letter entered by the user , condition controller
         */
-        String name= null;
-        String surname= null;
-        String email= null;
-
-        boolean state=false;
+        System.out.print("Enter the Seat number: ");
         try {
-
-            System.out.print("Please Enter your name: ");
-            name = new Scanner(System.in).next();
-            System.out.print("Please Enter your surname: ");
-            surname = new Scanner(System.in).next();
-            while(!state){
-                System.out.print("Please Enter your email: ");
-                email = new Scanner(System.in).next();
-                if(checkIfMail(email)){
-                    state=true;
+            int seat_number = new Scanner(System.in).nextInt();
+            if(seat_number>0 && seat_number<controller){
+                if(seats[rowIndex][seat_number-1]==0){
+                    boolean state=false;
+                    String email=null;
+                    System.out.print("\nPlease Enter your name: ");
+                    String name = new Scanner(System.in).next();
+                    System.out.print("Please Enter your surname: ");
+                    String surname = new Scanner(System.in).next();
+                    while(!state){
+                        System.out.print("Please Enter your email: ");
+                        email = new Scanner(System.in).next();
+                        if(email.contains("@") && email.contains(".")){
+                            state=true;
+                        }else{
+                            System.out.println("Invalid email please enter a valid email.");
+                        }
+                    }
+                    seats[rowIndex][seat_number-1]=1;
+                    double price;
+                    if(seat_number<6) price=200;
+                    else if (seat_number<10) price=150;
+                    else price=180;
+                    Person person = new Person(name,surname,email);
+                    Ticket ticket = new Ticket(row_letter.toUpperCase(), seat_number-1, price, person);
+                    if (ticketCount < 52) {
+                        tickets[ticketCount] = ticket;
+                        ticketCount++;
+                        ticket.save();
+                        System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" Ticket bought successfully!");
+                    }
                 }else{
-                    System.out.println("Invalid email please enter a valid email.");
-
+                    System.out.println("Seat "+row_letter.toUpperCase()+" "+seat_number+" is not available.");
                 }
-
+            }else{
+                System.out.println("Enter a correct Seat number.");
             }
-
-
         } catch (InputMismatchException e) {
-            System.out.println("Incorrect input \nError code:"+e);
-        }catch (Exception e) {
-            System.out.println("Some error occurred \nError code:"+e);
-        }
-        return new String[]{name,surname,email};
-    }
+            System.out.println("Enter an Integer");
 
+        } catch (Exception e){
+            System.out.println("Error Occurred\nError code: "+e);
+        }
+    }
+    public static void cancelProgress(String row_letter,int row_index,int conditionController) {
+        /*
+          Gets seat number and cancels the ticket and deletes the file
+          @params row letter,row index and the controller for the conditions
+        */
+        try {
+            System.out.print("Enter the Seat number: ");
+            int seat_number = new Scanner(System.in).nextInt();
+            if (seat_number > 0 && seat_number < conditionController) {
+                if (seats[row_index][seat_number - 1] == 1) {
+                    seats[row_index][seat_number - 1] = 0;
+                    for (int i = 0; i < ticketCount; i++) {
+                        Ticket ticket = tickets[i];
+                        if (Objects.equals(ticket.getRow(), row_letter.toUpperCase()) && ticket.getSeat() + 1 == seat_number) {
+                            System.out.println("Ticket cancelled Successfully");
+                            ticket.delete();
+                            for (int j = i; j < ticketCount - 1; j++) {
+                                tickets[j] = tickets[j + 1];
+                            }
+                            tickets[ticketCount - 1] = null;
+                            ticketCount--;
+                        }
+                    }
+                } else {
+                    System.out.println("Seat " + row_letter.toUpperCase() + " " + seat_number + " is available already.");
+                }
+            } else {
+                System.out.println("Enter a correct Seat number.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Incorrect input,Enter an Integer input!" );
+        } catch (Exception e) {
+            System.out.println("Some error occurred \nError code:" + e);
+        }
+    }
     public static void main(String[] args) {
         /*
             Main method initializing the program and calling the relevant methods
         */
-
         System.out.print("\n\tWelcome to the Plane Management System");
         seats[0] = new int[14];
         seats[1] = new int[12];
         seats[2] = new int[12];
         seats[3] = new int[14];
-
-
-
         int response;
-
         do{
             response=user_menu();
             switch(response){
@@ -552,8 +293,5 @@ public class PlaneManagement{
                 default: System.out.println("Invalid Option,Try again..");break;
             }
         }while (response!=0);
-
-
-
     } 
 }
